@@ -41,6 +41,11 @@ class Browser(object):
     def submit(self, method, path, params):
         self._process_and_follow_redirects(method, path, params)
 
+    def refresh(self):
+        env = self.last_request.environ
+        self.last_request = Request(env)
+        self.last_response = self.client.open(env)
+
     @property
     def html(self):
         return decode_bytes(self.last_response.data) if self.last_response else ""
