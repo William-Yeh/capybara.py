@@ -143,6 +143,11 @@ class Driver(Base):
         result = self.execute_script("return {0}".format(script), *args)
         return self._wrap_element_script_result(result)
 
+    def evaluate_script_async(self, script, *args):
+        args = [arg.native if isinstance(arg, Node) else arg for arg in args]
+        result = self.browser.execute_async_script(script, *args)
+        return self._wrap_element_script_result(result)
+
     def save_screenshot(self, path, **kwargs):
         self.browser.get_screenshot_as_file(path)
 
